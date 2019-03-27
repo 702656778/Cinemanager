@@ -22,7 +22,6 @@ public class OrdersFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view=inflater.inflate(R.layout.fragment_orders,null);
         TextView tv= view.findViewById(R.id.fragment_orders_tv);
         return view;
