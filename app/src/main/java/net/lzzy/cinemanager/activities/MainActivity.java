@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -13,15 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import net.lzzy.cinemanager.R;
+import net.lzzy.cinemanager.fragments.AddCinemaFragment;
+import net.lzzy.cinemanager.fragments.AddOrdersFragment;
 import net.lzzy.cinemanager.fragments.CinemasFragment;
-import net.lzzy.cinemanager.fragments.OrdersFragment;
 
-import java.security.PrivateKey;
+import net.lzzy.cinemanager.fragments.OnFragmentInteractionLisener;
+import net.lzzy.cinemanager.fragments.OrdersFragment;
+import net.lzzy.cinemanager.models.Cinema;
+
 
 /**
  * @author Administrator
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        OnFragmentInteractionLisener, AddCinemaFragment.OnCinemaCreatedListent {
     private FragmentManager manager = getSupportFragmentManager();
     private LinearLayout layoutMenu;
     private TextView tvTitle;
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        searchView.setVisibility(View.VISIBLE);
         layoutMenu.setVisibility(View.GONE);
         tvTitle.setText(titleArray.get(v.getId()));
         FragmentTransaction transaction = manager.beginTransaction();
@@ -86,17 +91,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment createFragment(int id) {
         switch (id) {
             case R.id.bar_title_tv_add_cinema:
-                break;
+                return new AddCinemaFragment();
             case R.id.bar_title_tv_view_cinema:
                return new CinemasFragment();
             case R.id.bar_title_tv_add_order:
-                break;
+              return new AddOrdersFragment();
             case R.id.bar_title_tv_my_order:
                return new OrdersFragment();
             default:
                 break;
         }
         return null;
+    }
+
+    @Override
+    public void cancelAddCinma() {
+        Fragment addCinemaFragment=fragmentArray.get(R.id.bar_title_tv_add_cinema);
+        if (addCinemaFragment==null){
+            return;
+        }
+        Fragment cinemasFragment=fragmentArray.get(R.id.bar_title_tv_view_cinema);
+        FragmentTransaction transaction=manager.beginTransaction();
+        if (cinemasFragment==null){
+            cinemasFragment=new CinemasFragment();
+            fragmentArray.put(R.id.bar_title_tv_view_cinema,cinemasFragment);
+            transaction.add(R.id.fragment_container,cinemasFragment);
+        }
+        transaction.hide(addCinemaFragment).show(cinemasFragment).commit();
+        tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_cinema));
+    }
+
+    @Override
+    public void saveCinema(Cinema cinema) {
+
+    }
+
+    @Override
+    public void hideSearch() {
+        searchView.setVisibility(View.INVISIBLE);
     }
 }
 
