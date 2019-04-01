@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import net.lzzy.cinemanager.models.Cinema;
+
 import java.util.Objects;
 
 
@@ -17,8 +19,8 @@ import java.util.Objects;
  * Created by lzzy_gxy on 2019/3/27.
  * Description:
  */
-public abstract class BaseFrament extends Fragment {
-    public BaseFrament(){}
+public abstract class BaseFragment extends Fragment {
+    public BaseFragment(){}
 
     @Nullable
     @Override
@@ -35,7 +37,12 @@ public abstract class BaseFrament extends Fragment {
 
     protected abstract int getLayoutRes();
 
+
+
     <T extends View> T find(@IdRes int id){
         return Objects.requireNonNull(getView()).findViewById(id);
     }
+
+    public abstract void search(String kw);
+
 }

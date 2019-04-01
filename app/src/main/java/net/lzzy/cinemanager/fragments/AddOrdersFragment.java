@@ -8,7 +8,7 @@ import net.lzzy.cinemanager.R;
  * Created by lzzy_gxy on 2019/3/27.
  * Description:
  */
-public class AddOrdersFragment extends BaseFrament {
+public class AddOrdersFragment extends BaseFragment {
 
     private OnFragmentInteractionLisener listener;
 
@@ -21,6 +21,11 @@ public class AddOrdersFragment extends BaseFrament {
     @Override
     public int getLayoutRes() {
         return R.layout.fragment_add_orders;
+    }
+
+    @Override
+    public void search(String kw) {
+
     }
 
     @Override

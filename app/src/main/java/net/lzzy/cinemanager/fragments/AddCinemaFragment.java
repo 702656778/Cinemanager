@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +16,11 @@ import com.lljjcoder.style.cityjd.JDCityPicker;
 import net.lzzy.cinemanager.R;
 import net.lzzy.cinemanager.models.Cinema;
 
-import java.text.BreakIterator;
-
 /**
  * Created by lzzy_gxy on 2019/3/27.
  * Description:
  */
-public class AddCinemaFragment extends BaseFrament {
+public class AddCinemaFragment extends BaseFragment {
     private EditText edtName;
     private TextView tvArea;
     private String province="广西壮族自治区";
@@ -82,6 +79,11 @@ public class AddCinemaFragment extends BaseFrament {
     @Override
     public int getLayoutRes() {
         return R.layout.fragment_add_cinema;
+    }
+
+    @Override
+    public void search(String kw) {
+
     }
 
     @Override
