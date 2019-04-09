@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -29,7 +31,10 @@ import net.lzzy.cinemanager.utils.ViewUtils;
  * @author Administrator
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        OnFragmentInteractionLisener, AddCinemaFragment.OnCinemaCreatedListent,AddOrdersFragment.OnOrderCreatedListener {
+        OnFragmentInteractionLisener, AddCinemaFragment.OnCinemaCreatedListent
+        ,AddOrdersFragment.OnOrderCreatedListener
+        ,CinemasFragment.OnCinemaSelectedListener {
+    public static final String EXTRA_CINEMA_ID ="cinemaId";
     private FragmentManager manager = getSupportFragmentManager();
     private LinearLayout layoutMenu;
     private TextView tvTitle;
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Fragment cinemasFragment=fragmentArray.get(R.id.bar_title_tv_view_cinema);
         FragmentTransaction transaction=manager.beginTransaction();
         if (cinemasFragment==null){
-            cinemasFragment=new CinemasFragment(cinema);
+            cinemasFragment=CinemasFragment.newInstance(cinema);
             fragmentArray.put(R.id.bar_title_tv_view_cinema,cinemasFragment);
             transaction.add(R.id.fragment_container,cinemasFragment);
         }else {
@@ -189,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Fragment orderFragment=fragmentArray.get(R.id.bar_title_tv_my_order);
         FragmentTransaction transaction=manager.beginTransaction();
         if (orderFragment==null){
-            orderFragment=new OrdersFragment(order);
+            orderFragment=OrdersFragment.newInstance(order);
             fragmentArray.put(R.id.bar_title_tv_my_order,orderFragment);
             transaction.add(R.id.fragment_container,orderFragment);
         }else {
@@ -197,6 +202,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         transaction.hide(addOrderFragment).show(orderFragment).commit();
         tvTitle.setText(titleArray.get(R.id.bar_title_tv_my_order));
+    }
+
+    @Override
+    public void onCinemaSelected(String cinemaId) {
+        Intent intent=new Intent(this,CinemaOrdersActivity.class);
+        intent.putExtra(EXTRA_CINEMA_ID,cinemaId);
+        startActivity(intent);
     }
 }
 

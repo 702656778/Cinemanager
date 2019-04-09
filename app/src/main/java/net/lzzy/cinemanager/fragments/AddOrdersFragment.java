@@ -37,7 +37,6 @@ public class AddOrdersFragment extends BaseFragment {
     private EditText edtPrice;
     private OnOrderCreatedListener orderCreatedListener;
 
-
     public ImageView imgRQCode;
 
     @Override
@@ -45,7 +44,7 @@ public class AddOrdersFragment extends BaseFragment {
         listener.hideSearch();
         initViews();
         initDatePicker();
-        //find(R.id.fragment_add_order_tv);
+
         List<Cinema> cinemas= CinemaFactory.getInstance().get();
         spinner.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item,cinemas));
@@ -74,13 +73,13 @@ public class AddOrdersFragment extends BaseFragment {
             order.setMovieTime(tvDate.getText().toString());
 
             order.setCinemaId(uCinemaId);
-            //adapter.add(order);
+
             orderCreatedListener.saveOrder(order);
 
             edtMovieName.setText("");
             edtPrice.setText("");
-
         });
+
         find(R.id.add_order_btn_create).setOnClickListener(v -> {
             String movieName=edtMovieName.getText().toString();
             String price=edtPrice.getText().toString();
@@ -124,7 +123,8 @@ public class AddOrdersFragment extends BaseFragment {
             orderCreatedListener=(OnOrderCreatedListener) context;
 
         }catch (ClassCastException e){
-            throw new ClassCastException(context.toString()+"必须实现OnFragmentInteractionListener ");
+            throw new ClassCastException(context.toString()
+                    +"必须实现OnFragmentInteractionListener ");
         }
     }
 

@@ -47,7 +47,6 @@ public class AddCinemaFragment extends BaseFragment {
             cinema.setName(name);
             cinema.setProvince(province);
             cinema.setLocation(tvArea.getText().toString());
-            //adapter.add(cinema);
             edtName.setText("");
             cinemaListener.saveCinema(cinema);
         });

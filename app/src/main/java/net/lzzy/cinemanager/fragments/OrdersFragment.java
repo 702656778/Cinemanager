@@ -2,6 +2,7 @@ package net.lzzy.cinemanager.fragments;
 
 
 import android.app.AlertDialog;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import androidx.annotation.Nullable;
 
 import net.lzzy.cinemanager.R;
 import net.lzzy.cinemanager.models.Cinema;
@@ -27,9 +30,8 @@ import java.util.List;
  * Description:
  */
 public class OrdersFragment extends BaseFragment {
-    public OrdersFragment() {
-    }
-
+    
+    private static final String ARG_NEN_ORDER ="argOrder" ;
     private ListView listView;
     public static final float MIN_DISTANCE = 100;
     private List<Order> orders;
@@ -39,10 +41,21 @@ public class OrdersFragment extends BaseFragment {
     private float touchX1;
     private boolean isDelete = false;
 
-    public OrdersFragment(Order order) {
-        this.order = order;
+    public static OrdersFragment newInstance(Order order){
+        OrdersFragment fragment =new OrdersFragment();
+        Bundle args=new Bundle();
+        args.putParcelable(ARG_NEN_ORDER,order);
+        fragment.setArguments(args);
+        return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments()!=null){
+           order =getArguments().getParcelable(ARG_NEN_ORDER);
+        }
+    }
 
     @Override
     protected void populate() {
@@ -65,6 +78,9 @@ public class OrdersFragment extends BaseFragment {
                                 .setPositiveButton("确定", (dialog, which) ->
                                         adapter.remove(order))
                                 .show();
+                        isDelete=false;
+                        int visible =isDelete ? View.VISIBLE:View.GONE;
+                        btn.setVisibility(visible);
                     }
                 });
                 viewHolder.getConvertView().setOnTouchListener(new ViewUtils.AbstractTouchHandler() {
@@ -74,7 +90,6 @@ public class OrdersFragment extends BaseFragment {
                         return true;
                     }
                 });
-
             }
 
             @Override
